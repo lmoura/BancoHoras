@@ -25,7 +25,7 @@ class Worker(Model):
 
 
 class BH(Model):
-    worker_id = ForeignKeyField(Worker, backref='turnos')
+    worker_id = ForeignKeyField(Worker, backref='bh')
     data_pedido = DateField()
     data = DateField()
     duration = TimeField()
@@ -35,6 +35,7 @@ class BH(Model):
     class Meta:
         database = db
         table_name = bh_tbl
+        order_by = ('data',)
 
 
 def add_worker(worker):
@@ -91,11 +92,20 @@ def get_bh(worker_name):
         soma_approved = BH.select(fn.SUM(BH.duration)).where(BH.worker_id == a_worker.id, BH.approved == 1).scalar()
         if soma_approved is None:
             soma_approved = 0
-        print(f"soma_approved: {soma_approved}")
-        return BH.select().where(BH.worker_id == a_worker.id).order_by(BH.data), soma, soma_approved
+        return a_worker.bh, soma, soma_approved
+        # return BH.select().where(BH.worker_id == a_worker.id).order_by(BH.data), soma, soma_approved
     else:
         print("get_bh: I don't now this guy! " + worker_name)
         return None
+
+
+def get_bh_all():
+    soma = BH.select(fn.SUM(BH.duration)).scalar()
+    soma_approved = BH.select(fn.SUM(BH.duration)).where(BH.approved == 1).scalar()
+    if soma_approved is None:
+        soma_approved = 0
+
+    return BH.select(BH, Worker).join(Worker).order_by(Worker.name, BH.data), soma, soma_approved
 
 
 def init_db():

@@ -12,6 +12,7 @@ Banco de Horas
                 <form action="" method="POST" id="banco">
                     <select id="workers" name="workers" onchange="this.form.submit()" required>
                         <option value="" disabled selected hidden>Colaborador</option>
+                        <option value="Todos">Todos</option>
                         {% for item in workers %}
                         <option value="{{ item.name }}">{{ item.name }}</option>
                         {% endfor %}
@@ -31,6 +32,9 @@ Banco de Horas
             </div>
             {% for item in entradas %}
             <div class="card-bh-list" onclick="location.href = '/';">
+                <div>
+                    {{ item.worker_id.name }}
+                </div>
                 <div>
                     {{ item.data }}
                 </div>

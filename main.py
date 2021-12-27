@@ -20,7 +20,7 @@ def index():
                 workers_ = bh_db.get_dep_workers_list(True)
                 return render_template('bh_form.html', workers=workers_, is_admin=is_admin)
             else:
-                return 'Wrong password!'
+                return '<h1>Wrong password!</h1>'
         else:
             bh_db.add_bh(form_data['workers'], form_data['data'], form_data['horas'], form_data['desc'], False)
             return render_template('new_entry.html', form_data=form_data, is_admin=is_admin)
@@ -41,13 +41,16 @@ def workers_list():
 def bancohoras_list():
     workers_ = bh_db.get_dep_workers_list(False)
     if request.method == 'GET':
-        worker_name_ = ''
-        entradas_ = None
+        worker_name_ = 'Todos'
+        entradas_, soma_, soma_approved_ = bh_db.get_bh_all()
         return render_template('bh_list.html', entradas=entradas_, worker_name=worker_name_, workers=workers_, is_admin=is_admin)
     if request.method == 'POST':
         form_data = request.form
         worker_name_ = form_data['workers']
-        entradas_, soma_, soma_approved_ = bh_db.get_bh(worker_name_)
+        if worker_name_ == 'Todos':
+            entradas_, soma_, soma_approved_ = bh_db.get_bh_all()
+        else:
+            entradas_, soma_, soma_approved_ = bh_db.get_bh(worker_name_)
         return render_template('bh_list.html', entradas=entradas_, worker_name=worker_name_, workers=workers_, soma=soma_, soma_approved=soma_approved_, is_admin=is_admin)
 
 
