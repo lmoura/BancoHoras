@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Banco de Horas
+{% endblock %}
+
+{% block content %}
+<div class="board">
+    <div class="board-lists">
+        <div class="board-list">
+            <div class="list-title">
+                A sua informação foi enviada com êxito.
+            </div>
+            <div class="card">
+                <div>
+                    {{ form_data['workers'] }}
+                </div>
+                <div>
+                    {{ form_data['data'] }}
+                </div>
+                <div>
+                    {{ form_data['horas'] }}h
+                </div>
+                <div>
+                    {{ form_data['desc'] }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    var today = new Date();
+    hoje = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    //console.log(hoje);
+</script>
+{% endblock %}

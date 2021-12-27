@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Banco de Horas
+{% endblock %}
+
+{% block content %}
+<div class="board">
+    <div class="board-lists-home">
+        <div class="board-list">
+            <div class="list-title">
+                Nova entrada
+            </div>
+            <form action="/" method="POST" id="banco">
+                <div class="card-home">
+                    <div>
+                        <input type="text" id="user" name="user" placeholder="Username" required>
+                        <span class="validity"></span>
+                    </div>
+                    <div>
+                        <input type="text" id="pw" name="pw" placeholder="Password" required>
+                        <span class="validity"></span>
+                    </div>
+                    <div>
+                    </div>
+                    <div>
+                    </div>
+                    <div>
+                        <button class="button_submit" type="submit" form="banco" name="action" value="Submit_admin">Enviar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    var today = new Date();
+    hoje = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    //console.log(hoje);
+    document.getElementById('data').value = hoje;
+</script>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Banco de Horas
+{% endblock %}
+
+{% block content %}
+<div class="board">
+    <div class="board-header">
+        <div class="left">
+            <div class="board-header-text">
+                <form action="" method="POST" id="banco">
+                    <select id="workers" name="workers" onchange="this.form.submit()" required>
+                        <option value="" disabled selected hidden>Colaborador</option>
+                        {% for item in workers %}
+                        <option value="{{ item.name }}">{{ item.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <span class="validity"></span>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="board-lists-home">
+        <div class="board-list">
+            {% if entradas!=None %}
+            <div class="list-title">
+                {{ worker_name }}
+                <br>Total: {{ soma }}h
+                <br>Total Aprovado: {{ soma_approved }}h
+            </div>
+            {% for item in entradas %}
+            <div class="card-bh-list" onclick="location.href = '/';">
+                <div>
+                    {{ item.data }}
+                </div>
+                <div>
+                    {{ item.duration }}h
+                </div>
+                <div>
+                    {{ item.desc }}
+                </div>
+                <div>
+                    <form action="" method="POST" id="banco_approve">
+                    <input type="checkbox" id="approved" name="approved" onchange="this.form.submit()"
+                           {% if item.approved %} checked{% endif %}>
+                    </form>
+                </div>
+                <div>
+                    <div class="button_submit">Editar</div>
+                </div>
+                <div>
+                    <div class="button_delete">Apagar</div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

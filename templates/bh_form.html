@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Banco de Horas
+{% endblock %}
+
+{% block content %}
+<div class="board">
+    <div class="board-lists-home">
+        <div class="board-list">
+            <div class="list-title">
+                Nova entrada
+            </div>
+            <form action="" method="POST" id="banco">
+                <div class="card-home">
+                    <div>
+                        <select id="workers" name="workers" required>
+                            <option value="" disabled selected hidden>Colaborador</option>
+                            {% for item in workers %}
+                            <option value="{{ item.name }}">{{ item.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <span class="validity"></span>
+                    </div>
+                    <div><input type="date" id="data" name="data"
+                                value="2022-01-01"
+                                min="2021-01-01" max="2025-12-31" required>
+                        <span class="validity"></span>
+                    </div>
+                    <div>
+                        <input type="number" id="horas" name="horas" placeholder="0.0" step="0.5"
+                               style="text-align: right;" required>
+                        <label for="horas">h</label>
+                        <span class="validity"></span>
+                    </div>
+                    <div>
+                        <input type="text" id="desc" name="desc" placeholder="Descrição">
+                    </div>
+                    <div>
+<!--                            <input type="hidden" id="is_admin" name="is_admin" value="{% if is_admin=='True' %}True{% endif %}">-->
+                        <button class="button_submit" type="submit" form="banco" name="action" value="Submit_banco">Enviar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    var today = new Date();
+    hoje = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    //console.log(hoje);
+    document.getElementById('data').value = hoje;
+</script>
+{% endblock %}

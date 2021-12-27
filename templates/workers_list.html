@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Banco de Horas
+{% endblock %}
+
+{% block content %}
+<div class="board">
+    <div class="board-header">
+            <div class="left">
+                <div class="board-header-text">
+                    <div class="button">Active</div>
+                </div>
+            </div>
+        </div>
+    <div class="board-lists">
+        <div class="board-list">
+            <div class="list-title">
+                Colaboradores
+            </div>
+            {% for item in workers %}
+                {% if item.active %}
+                    <div class="card" onclick="location.href = '/';">
+                {% else %}
+                    <div class="card_inactive">
+                {% endif %}
+                        <div class="card-text">{{ item.name }}</div>
+                        <div>{{ item.department }}</div>
+                        <div><div class="button_submit">Editar</div></div>
+                        <div><div class="button_delete">Apagar</div></div>
+                    </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endblock %}

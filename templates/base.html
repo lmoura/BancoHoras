@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+<div class="base">
+    <div class="header">
+        <div class="left-aligned">
+            {% if is_admin=='True' %}
+            <button class="button" type="button" onclick="location.href = '/';">Nova Entrada</button>
+            <button class="button" type="button" onclick="location.href = '/workers';">Colaboradores</button>
+            <button class="button" type="button" onclick="location.href = '/banco_horas';">Banco de Horas</button>
+            {% endif %}
+        </div>
+    </div>
+    {% block content %} {% endblock %}
+</div>
+</body>
+</html>
