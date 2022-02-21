@@ -31,6 +31,15 @@ def index_admin():
     return render_template('bh_admin.html', is_admin=is_admin)
 
 
+@app.route("/update_chk")
+def result():
+    chk_id = request.args.get('chkid')
+    chk = request.args.get('ischecked')
+    print(type(chk))
+    bh_db.update_chk(chk_id, chk)
+    return 'Sucesso!!!!!! ' + chk_id + chk
+
+
 @app.route('/workers')
 def workers_list():
     workers_ = bh_db.get_dep_workers_list(False)

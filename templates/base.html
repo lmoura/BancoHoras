@@ -5,21 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <link rel="stylesheet" href="../static/css/style.css">
+<!--
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+-->
 </head>
-
 <body>
-<div class="base">
-    <div class="header">
-        <div class="left-aligned">
-            {% if is_admin=='True' %}
-            <button class="button" type="button" onclick="location.href = '/';">Nova Entrada</button>
-            <button class="button" type="button" onclick="location.href = '/workers';">Colaboradores</button>
-            <button class="button" type="button" onclick="location.href = '/banco_horas';">Banco de Horas</button>
-            {% endif %}
+    <div class="base">
+        <div class="header">
+            <div class="left-aligned">
+                {% if is_admin=='True' %}
+                <button class="button" type="button" onclick="location.href = '/';">Nova Entrada</button>
+                <button class="button" type="button" onclick="location.href = '/workers';">Colaboradores</button>
+                <button class="button" type="button" onclick="location.href = '/banco_horas';">Banco de Horas</button>
+                {% endif %}
+            </div>
         </div>
+        {% block content %}
+        {% endblock %}
     </div>
-    {% block content %} {% endblock %}
-</div>
 </body>
 </html>

@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Banco de Horas
+{% endblock %}
+
+{% block content %}
+    <div class="board-list-list">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-10">
+                    <h1>Banco de Horas</h1>
+                    <hr>
+                    <br>
+                    <div class="board-header-text">
+                        <form action="" method="POST" id="banco">
+                            <select id="workers" name="workers" onchange="this.form.submit()" required>
+                                <option value="" disabled selected hidden>Colaborador</option>
+                                <option value="Todos">Todos</option>
+                                {% for item in workers %}
+                                <option value="{{ item.name }}">{{ item.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <span class="validity"></span>
+                        </form>
+                    </div>
+                    <br>
+                    <button type="button" class="btn btn-success btn-sm">Nova entrada</button>
+                    <br><br>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Read?</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in entradas %}
+                        <tr>
+                            <td>{{ item.worker_id.name }}</td>
+                            <td>{{ item.data }}</td>
+                            <td>{{ item.duration }}h</td>
+                            <td>{{ item.desc }}</td>
+                            <td>
+                                <input type="checkbox" id="approved" name="approved" onchange="this.form.submit()"
+                                       {% if item.approved %} checked{% endif %}>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-warning btn-sm" onclick="editBook(book)">Update
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="onDeleteBook(book)">
+                                        Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="board">
+    <div class="board-header">
+        <div class="left">
+
+        </div>
+    </div>
+    <div class="board-lists-home">
+        <div class="board-list">
+            {% if entradas!=None %}
+            <div class="list-title">
+                {{ worker_name }}
+                <br>Total: {{ soma }}h
+                <br>Total Aprovado: {{ soma_approved }}h
+            </div>
+            {% for item in entradas %}
+            <div class="card-bh-list" onclick="location.href = '/';">
+                <div>
+                    {{ item.worker_id.name }}
+                </div>
+                <div>
+                    {{ item.data }}
+                </div>
+                <div>
+                    {{ item.duration }}h
+                </div>
+                <div>
+                    {{ item.desc }}
+                </div>
+                <div>
+                    <form action="" method="POST" id="banco_approve">
+                        <input type="checkbox" id="approved" name="approved" onchange="this.form.submit()"
+                               {% if item.approved %} checked{% endif %}>
+                    </form>
+                </div>
+                <div>
+                    <div class="button_submit">Editar</div>
+                </div>
+                <div>
+                    <div class="button_delete">Apagar</div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

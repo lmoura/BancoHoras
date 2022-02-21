@@ -5,10 +5,12 @@ Banco de Horas
 {% endblock %}
 
 {% block content %}
+<br/><br/>
 <div class="board">
     <div class="board-header">
         <div class="left">
             <div class="board-header-text">
+                <div id="textData"></div>
                 <form action="" method="POST" id="banco">
                     <select id="workers" name="workers" onchange="this.form.submit()" required>
                         <option value="" disabled selected hidden>Colaborador</option>
@@ -31,7 +33,8 @@ Banco de Horas
                 <br>Total Aprovado: {{ soma_approved }}h
             </div>
             {% for item in entradas %}
-            <div class="card-bh-list" onclick="location.href = '/';">
+<!--            <div class="card-bh-list" onclick="location.href = '/';">-->
+            <div class="card-bh-list" id="card_{{ item.id }}">
                 <div>
                     {{ item.worker_id.name }}
                 </div>
@@ -45,16 +48,43 @@ Banco de Horas
                     {{ item.desc }}
                 </div>
                 <div>
-                    <form action="" method="POST" id="banco_approve">
-                    <input type="checkbox" id="approved" name="approved" onchange="this.form.submit()"
+                    <input type="checkbox" id="approved_{{ item.id }}" onchange="checkClick({{ item.id }})"
                            {% if item.approved %} checked{% endif %}>
-                    </form>
                 </div>
-                <div>
-                    <div class="button_submit">Editar</div>
+                <div id="button_submit_{{ item.id }}">
+                    <button class="button_submit" onclick="do_edit({{ item.id }})">Editar</button>
                 </div>
                 <div>
                     <div class="button_delete">Apagar</div>
+                </div>
+            </div>
+
+            <div class="card-home">
+                <div>
+                    {{ item.worker_id.name }}
+                </div>
+                <div>
+                    <input type="date" id="data" name="data"
+                            value="{{ item.data }}"
+                            min="2021-01-01" max="2025-12-31" required>
+                    <span class="validity"></span>
+                </div>
+                <div>
+                    <input type="number" id="horas" name="horas" placeholder="0.0" value="{{ item.duration }}" step="0.5"
+                           class="horas" required>
+                    <label for="horas">h</label>
+                    <span class="validity"></span>
+                </div>
+                <div>
+                    <input type="text" id="desc" name="desc" placeholder="Descrição" value="{{ item.desc }}">
+                </div>
+                <div>
+                    <input type="checkbox" id="approved_{{ item.id }}" onchange="checkClick({{ item.id }})"
+                           {% if item.approved %} checked{% endif %}>
+                </div>
+                <div>
+<!--                            <input type="hidden" id="is_admin" name="is_admin" value="{% if is_admin=='True' %}True{% endif %}">-->
+                    <button class="button_submit" type="submit" form="banco" name="action" value="Submit_banco">Enviar</button>
                 </div>
             </div>
             {% endfor %}
@@ -62,4 +92,70 @@ Banco de Horas
         </div>
     </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+    function do_edit(id) {
+        console.log(id);
+
+        $("#button_submit_" + id).siblings().each(
+            function(){
+                if ($(this).find('input').length){
+                    $(this).text($(this).find('input').val());
+                } else {
+                    var t = $(this).text();
+                    $(this).html($('<input />',{'value' : t}).val(t));
+                }
+            }
+        );
+    }
+
+    $('#tbl').on('click','.xx',function() {
+    $(this).siblings().each(
+        function(){
+            if ($(this).find('input').length){
+                $(this).text($(this).find('input').val());
+            }
+            else {
+                var t = $(this).text();
+                $(this).html($('<input />',{'value' : t}).val(t));
+            }
+        });
+    });
+
+    function checkClick(chkId) {
+        checked = ""
+        if($("#approved_" + chkId).is(":checked")) {
+            checked = true;
+        } else {
+            checked = false;
+        }
+
+        $.ajax({
+            url: "update_chk",
+            type: "get",
+            data: {
+                chkid: chkId,
+                ischecked: checked},
+            success: function (result,status,xhr) {
+                $("#textData").html(result);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $("#approved").click(function (e) {
+            $.ajax({
+                url: "file.txt",
+                type: "get",
+                data: {jsdata: 'dados'},
+                success: function (result,status,xhr) {
+                    $("#textData").html(result);
+                }
+            });
+        });
+    });
+</script>
+
 {% endblock %}

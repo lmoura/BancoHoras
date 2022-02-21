@@ -1,6 +1,5 @@
 from peewee import *
 import datetime
-from icecream import ic
 
 date_comb = datetime.date(1, 1, 1)
 
@@ -83,6 +82,21 @@ def add_bh(worker_name, date_, duration_, desc_, approved_):
         # TODO: Acrescentar Worker
         print("add_bh: I don't now this guy! " + worker_name)
         return None
+
+
+def update_chk(chk_id, checked):
+    chk = False
+    if checked == 'true':
+        chk = True
+
+    uma_entrada = BH.get_or_none(BH.id == chk_id)
+    if uma_entrada is not None:  # Verificar se o BH existe. se existir atualiza-se
+        uma_entrada.approved = chk
+        uma_entrada.save()
+    else:  # Se não existir cria-se
+        uma_entrada = "ERROR!"
+
+    return uma_entrada
 
 
 def get_bh(worker_name):

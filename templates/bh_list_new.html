@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Banco de Horas
+{% endblock %}
+
+{% block content %}
+<br/><br/>
+<div class="board">
+    <div class="board-header">
+        <div class="left">
+            <div class="board-header-text">
+                <div id="textData"></div>
+                <form action="" method="POST" id="banco">
+                    <select id="workers" name="workers" onchange="this.form.submit()" required>
+                        <option value="" disabled selected hidden>Colaborador</option>
+                        <option value="Todos">Todos</option>
+                        {% for item in workers %}
+                        <option value="{{ item.name }}">{{ item.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <span class="validity"></span>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="board-lists-home">
+        <div class="board-list">
+        {% if entradas!=None %}
+            <div class="list-title">
+                {{ worker_name }}
+                <br>Total: {{ soma }}h
+                <br>Total Aprovado: {{ soma_approved }}h
+            </div>
+            <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Data</th>
+                            <th>Dur. (h)</th>
+                            <th>Motivo</th>
+                            <th>Aprovado</th>
+                            <th>Editar</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for item in entradas %}
+                        <tr row_id="{{ item.id }}">
+                            <td>
+                                <div class="row_data" edit_type="click" col_name="fname">{{ item.worker_id.name }}</div>
+                            </td>
+                            <td>
+                                <div class="row_data" edit_type="click" col_name="lname">{{ item.data }}</div>
+                            </td>
+                            <td>
+                                <div class="row_data horas" edit_type="click" col_name="email">{{ item.duration }}</div>
+                            </td>
+                            <td>
+                                <div class="row_data" edit_type="click" col_name="email">{{ item.desc }}</div>
+                            </td>
+                            <td>
+                                <div>
+                                    <input type="checkbox" id="approved_{{ item.id }}" onchange="checkClick({{ item.id }})"
+                           {% if item.approved %} checked{% endif %}>
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="btn_edit"> <a href="#" class="btn btn-link " row_id="{{ item.id }}">
+                                        Edit</a> </span>
+                                <!-- only show this button if edit button is clicked -->
+                                <span class="btn_save"> <a href="#" class="btn btn-link" row_id="{{ item.id }}">
+                                        Save</a> | </span>
+                                <span class="btn_cancel"> <a href="#" class="btn btn-link"
+                                        row_id="{{ item.id }}"> Cancel</a> | </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        {% endif %}
+        </div>
+    </div>
+</div>
+<script src="../static/js/script.js"></script>
+<script src="../static/js/checkbox_approved.js"></script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
+{% endblock %}
