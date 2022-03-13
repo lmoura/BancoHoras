@@ -67,4 +67,4 @@ if __name__ == "__main__":
     bh_db.connect_db()
     # bh_db.init_workers_db()
     # app.run(host="127.0.0.1", port=8080, debug=True)
-    app.run()
+    app.run(port=8000)
