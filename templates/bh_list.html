@@ -41,13 +41,13 @@ Banco de Horas
                 <div>
                     {{ item.worker_id.name }}
                 </div>
-                <div>
+                <div id="data__{{ item.id }}">
                     {{ item.data }}
                 </div>
-                <div>
+                <div id="horas__{{ item.id }}">
                     {{ item.duration }}h
                 </div>
-                <div>
+                <div id="desc__{{ item.id }}">
                     {{ item.desc }}
                 </div>
                 <div>
@@ -150,6 +150,10 @@ Banco de Horas
             }
         });
         showHide('edit_card_' + chkId, 'card_' + chkId)
+        // TODO: alterar os valores no cartão estático
+        $("#data__" + chkId).html(data_);
+        $("#horas__" + chkId).html(horas_ + "h");
+        $("#desc__" + chkId).html(desc_);
     }
 </script>
 
