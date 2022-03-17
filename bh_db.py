@@ -99,6 +99,19 @@ def update_chk(chk_id, checked):
     return uma_entrada
 
 
+def update_bh(chk_id, data_, horas_, desc_):
+    uma_entrada = BH.get_or_none(BH.id == chk_id)
+    if uma_entrada is not None:  # Verificar se o BH existe. se existir atualiza-se
+        uma_entrada.data = data_
+        uma_entrada.duration = horas_
+        uma_entrada.desc = desc_
+        uma_entrada.save()
+    else:  # Se não existir cria-se
+        uma_entrada = "ERROR!"
+
+    return uma_entrada
+
+
 def get_bh(worker_name):
     a_worker = Worker.get_or_none(Worker.name == worker_name)
     if a_worker is not None:  # Verificar se o worker existe

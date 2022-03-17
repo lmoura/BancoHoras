@@ -32,11 +32,20 @@ def index_admin():
 
 
 @app.route("/update_chk", methods=['GET'])
-def result():
+def update_chk():
     chk_id = request.args.get('chkid')
     chk = request.args.get('ischecked')
     bh_db.update_chk(chk_id, chk)
     entradas_, soma_, soma_approved_ = get_bh(request.args.get('worker_n'))
+    return str(soma_approved_)
+
+
+@app.route("/update_bh", methods=['POST'])
+def update_bh():
+    form_data = request.form
+    print(form_data)
+    bh_db.update_bh(form_data['chkid'], form_data['data'], form_data['horas'], form_data['desc'])
+    entradas_, soma_, soma_approved_ = get_bh(form_data['worker_n'])
     return str(soma_approved_)
 
 

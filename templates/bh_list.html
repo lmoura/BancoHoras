@@ -82,10 +82,10 @@ Banco de Horas
                     <input type="text" id="desc_{{ item.id }}" name="desc" placeholder="Descrição" value="{{ item.desc }}">
                 </div>
                 <div>
-                    <input type="checkbox" id="is_approved_{{ item.id }}" {% if item.approved %} checked{% endif %}>
+                    <button class="button_submit" type="submit" onclick="save({{ item.id }}, '{{ worker_name }}')">Gravar</button>
                 </div>
                 <div>
-                    <button class="button_submit" type="submit" form="banco" name="action" value="Submit_banco">Gravar</button>
+                    <button class="button_delete" type="submit" onclick="showHide('edit_card_{{ item.id }}', 'card_{{ item.id }}')">Cancelar</button>
                 </div>
             </div>
             {% endfor %}
@@ -131,26 +131,26 @@ Banco de Horas
         });
     }
 
-    function save(chkId) {
-        checked = ""
-        if($("#approved_" + chkId).is(":checked")) {
-            checked = true;
-        } else {
-            checked = false;
-        }
+    function save(chkId, worker_name) {
+        data_ = $("#data_" + chkId).val();
+        horas_ = $("#horas_" + chkId).val();
+        desc_ = $("#desc_" + chkId).val();
 
         $.ajax({
-            url: "update_chk",
-            type: "get",
+            url: "update_bh",
+            type: "post",
             data: {
                 chkid: chkId,
-                ischecked: checked},
+                data: data_,
+                horas: horas_,
+                desc: desc_,
+                worker_n: worker_name},
             success: function (result,status,xhr) {
-                $("#textData").html(result);
+                $("#total").html(result + "h");
             }
         });
+        showHide('edit_card_' + chkId, 'card_' + chkId)
     }
-
 </script>
 
 {% endblock %}
