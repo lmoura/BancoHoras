@@ -21,19 +21,18 @@ Banco de Horas
                     </select>
                     <span class="validity"></span>
                 </form>
+                &nbsp;<br>
+                <div class="list-title">
+                {{ worker_name }}
+                <br>Total BH: <div id="total" style="display:inline;">{{ soma_approved }}h</div>
+            </div>
             </div>
         </div>
     </div>
     <div class="board-lists-home">
         <div class="board-list">
             {% if entradas!=None %}
-            <div class="list-title">
-                {{ worker_name }}
-<!--                <br>Total: {{ soma }}h-->
-                <br>Total BH: <div id="total" style="display:inline;">{{ soma_approved }}h</div>
-            </div>
             {% for item in entradas %}
-<!--            <div class="card-bh-list" onclick="location.href = '/';">-->
             <div class="card-bh-list" id="card_{{ item.id }}">
                 <div>
                     {{ item.worker_id.name }}

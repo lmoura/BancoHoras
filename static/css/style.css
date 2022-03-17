@@ -48,7 +48,7 @@ body {
     background-color: rgba(255, 255, 255, 0.3);
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    padding: 0px;
+    padding: 5px;
     width: 100%;
     border-radius: 4px;
 }
@@ -122,6 +122,8 @@ body {
 
 .list-title {
     font-weight: bold;
+    color: white;
+    font-size: 20px;
 }
 
 .card, .card_inactive, .card-home, .card-bh-list {
