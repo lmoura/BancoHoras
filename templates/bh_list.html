@@ -10,25 +10,29 @@ Banco de Horas
     <div class="board-header">
         <div class="left">
             <div class="board-header-text">
-                <div id="textData"></div>
-                <form action="" method="POST" id="banco">
-                    <select id="workers" name="workers" onchange="this.form.submit()" required>
-                        <option value="" disabled selected hidden>Colaborador</option>
-                        <option value="Todos">Todos</option>
-                        {% for item in workers %}
-                        <option value="{{ item.name }}">{{ item.name }}</option>
-                        {% endfor %}
-                    </select>
-                    <span class="validity"></span>
-                </form>
-                &nbsp;<br>
+                <div id="textData">
+                </div>
                 <div class="list-title">
-                {{ worker_name }}
-                <br>Total BH: <div id="total" style="display:inline;">{{ soma_approved }}h</div>
+                    {{ worker_name }}
+                    <br>Total BH: <div id="total" style="display:inline;">{{ soma_approved }}h
+                </div>
             </div>
             </div>
         </div>
+        <div class="right">
+            <form action="" method="POST" id="banco">
+                <select id="workers" name="workers" onchange="this.form.submit()" required>
+                    <option value="" disabled selected hidden>Colaborador</option>
+                    <option value="Todos">Todos</option>
+                    {% for item in workers %}
+                    <option value="{{ item.name }}">{{ item.name }}</option>
+                    {% endfor %}
+                </select>
+                <span class="validity"></span>
+            </form>
+        </div>
     </div>
+
     <div class="board-lists-home">
         <div class="board-list">
             {% if entradas!=None %}
