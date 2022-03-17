@@ -83,7 +83,6 @@ $(document).ready(function ($) {
         event.preventDefault();
 
         var tbl_row = $(this).closest('tr');
-
         var row_id = tbl_row.attr('row_id');
 
         //hide save and cacel buttons
@@ -141,8 +140,6 @@ $(document).ready(function ($) {
 
         //out put to show
         $('.post_msg').html('<pre class="bg-success">' + JSON.stringify(arr, null, 2) + '</pre>')
-
-
     });
     //--->save whole row entery > end
 });

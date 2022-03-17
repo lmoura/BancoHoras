@@ -31,13 +31,13 @@ def index_admin():
     return render_template('bh_admin.html', is_admin=is_admin)
 
 
-@app.route("/update_chk")
+@app.route("/update_chk", methods=['GET'])
 def result():
     chk_id = request.args.get('chkid')
     chk = request.args.get('ischecked')
-    print(type(chk))
     bh_db.update_chk(chk_id, chk)
-    return 'Sucesso!!!!!! ' + chk_id + chk
+    entradas_, soma_, soma_approved_ = get_bh(request.args.get('worker_n'))
+    return str(soma_approved_)
 
 
 @app.route('/workers')
@@ -56,11 +56,16 @@ def bancohoras_list():
     if request.method == 'POST':
         form_data = request.form
         worker_name_ = form_data['workers']
-        if worker_name_ == 'Todos':
-            entradas_, soma_, soma_approved_ = bh_db.get_bh_all()
-        else:
-            entradas_, soma_, soma_approved_ = bh_db.get_bh(worker_name_)
+        entradas_, soma_, soma_approved_ = get_bh(worker_name_)
         return render_template('bh_list.html', entradas=entradas_, worker_name=worker_name_, workers=workers_, soma=soma_, soma_approved=soma_approved_, is_admin=is_admin)
+
+
+def get_bh(worker_name):
+    if worker_name == 'Todos':
+        entradas_, soma_, soma_approved_ = bh_db.get_bh_all()
+    else:
+        entradas_, soma_, soma_approved_ = bh_db.get_bh(worker_name)
+    return entradas_, soma_, soma_approved_
 
 
 if __name__ == "__main__":

@@ -29,8 +29,8 @@ Banco de Horas
             {% if entradas!=None %}
             <div class="list-title">
                 {{ worker_name }}
-                <br>Total: {{ soma }}h
-                <br>Total Aprovado: {{ soma_approved }}h
+<!--                <br>Total: {{ soma }}h-->
+                <br>Total BH: <div id="total" style="display:inline;">{{ soma_approved }}h</div>
             </div>
             {% for item in entradas %}
 <!--            <div class="card-bh-list" onclick="location.href = '/';">-->
@@ -48,43 +48,41 @@ Banco de Horas
                     {{ item.desc }}
                 </div>
                 <div>
-                    <input type="checkbox" id="approved_{{ item.id }}" onchange="checkClick({{ item.id }})"
+                    <input type="checkbox" id="approved_{{ item.id }}" onchange="checkClick({{ item.id }}, '{{ worker_name }}')"
                            {% if item.approved %} checked{% endif %}>
                 </div>
                 <div id="button_submit_{{ item.id }}">
-                    <button class="button_submit" onclick="do_edit({{ item.id }})">Editar</button>
+                    <button class="button_submit" onclick="showHide('edit_card_{{ item.id }}', 'card_{{ item.id }}')">Editar</button>
                 </div>
                 <div>
                     <div class="button_delete">Apagar</div>
                 </div>
             </div>
 
-            <div class="card-home">
+            <div class="card-home" id="edit_card_{{ item.id }}" style="display:none;">
                 <div>
                     {{ item.worker_id.name }}
                 </div>
                 <div>
-                    <input type="date" id="data" name="data"
+                    <input type="date" id="data_{{ item.id }}" name="data"
                             value="{{ item.data }}"
                             min="2021-01-01" max="2025-12-31" required>
                     <span class="validity"></span>
                 </div>
                 <div>
-                    <input type="number" id="horas" name="horas" placeholder="0.0" value="{{ item.duration }}" step="0.5"
+                    <input type="number" id="horas_{{ item.id }}" name="horas" placeholder="0.0" value="{{ item.duration }}" step="0.5"
                            class="horas" required>
-                    <label for="horas">h</label>
+                    <label for="horas_{{ item.id }}">h</label>
                     <span class="validity"></span>
                 </div>
                 <div>
-                    <input type="text" id="desc" name="desc" placeholder="Descrição" value="{{ item.desc }}">
+                    <input type="text" id="desc_{{ item.id }}" name="desc" placeholder="Descrição" value="{{ item.desc }}">
                 </div>
                 <div>
-                    <input type="checkbox" id="approved_{{ item.id }}" onchange="checkClick({{ item.id }})"
-                           {% if item.approved %} checked{% endif %}>
+                    <input type="checkbox" id="is_approved_{{ item.id }}" {% if item.approved %} checked{% endif %}>
                 </div>
                 <div>
-<!--                            <input type="hidden" id="is_admin" name="is_admin" value="{% if is_admin=='True' %}True{% endif %}">-->
-                    <button class="button_submit" type="submit" form="banco" name="action" value="Submit_banco">Enviar</button>
+                    <button class="button_submit" type="submit" form="banco" name="action" value="Submit_banco">Gravar</button>
                 </div>
             </div>
             {% endfor %}
@@ -96,35 +94,41 @@ Banco de Horas
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 <script>
-    function do_edit(id) {
-        console.log(id);
-
-        $("#button_submit_" + id).siblings().each(
-            function(){
-                if ($(this).find('input').length){
-                    $(this).text($(this).find('input').val());
-                } else {
-                    var t = $(this).text();
-                    $(this).html($('<input />',{'value' : t}).val(t));
-                }
-            }
-        );
+    function showHide(theIDshow, theIDhide) {
+        console.log(theIDshow);
+        var x = document.getElementById(theIDshow);
+        var y = document.getElementById(theIDhide);
+        if (x.style.display === "none") {
+            x.style.display = "grid";
+            y.style.display = "none";
+        } else {
+            x.style.display = "none";
+            y.style.display = "grid";
+        }
     }
 
-    $('#tbl').on('click','.xx',function() {
-    $(this).siblings().each(
-        function(){
-            if ($(this).find('input').length){
-                $(this).text($(this).find('input').val());
-            }
-            else {
-                var t = $(this).text();
-                $(this).html($('<input />',{'value' : t}).val(t));
+    function checkClick(chkId, worker_name) {
+        checked = ""
+        if($("#approved_" + chkId).is(":checked")) {
+            checked = true;
+        } else {
+            checked = false;
+        }
+
+        $.ajax({
+            url: "update_chk",
+            type: "get",
+            data: {
+                chkid: chkId,
+                ischecked: checked,
+                worker_n: worker_name},
+            success: function (result,status,xhr) {
+                $("#total").html(result + "h");
             }
         });
-    });
+    }
 
-    function checkClick(chkId) {
+    function save(chkId) {
         checked = ""
         if($("#approved_" + chkId).is(":checked")) {
             checked = true;
@@ -144,18 +148,6 @@ Banco de Horas
         });
     }
 
-    $(document).ready(function () {
-        $("#approved").click(function (e) {
-            $.ajax({
-                url: "file.txt",
-                type: "get",
-                data: {jsdata: 'dados'},
-                success: function (result,status,xhr) {
-                    $("#textData").html(result);
-                }
-            });
-        });
-    });
 </script>
 
 {% endblock %}

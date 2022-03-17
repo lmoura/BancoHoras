@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,7 +19,7 @@
 </head>
 
 <body>
-    <script type="text/javascript">
+<script type="text/javascript">
         $(document).ready(function ($) {
             //ajax row data
             var ajax_data =
@@ -179,61 +181,62 @@
             });
             //--->save whole row entery > end
         }); 
-    </script>
 
-    <div class="panel panel-default">
-        <div class="panel-heading"><b> Demo </b></div>
-        <div class="panel-body">
-            <div class="tbl_user_data">
+</script>
 
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Options</th>
-                        </tr>
-                    </thead>
+<div class="panel panel-default">
+    <div class="panel-heading"><b> Demo </b></div>
+    <div class="panel-body">
+        <div class="tbl_user_data">
 
-                    <tbody>
-                        {% for my_item in my_collection %}
-                        <tr row_id="{{ my_item.row_id }}">
-                            <td>
-                                <div class="row_data" edit_type="click" col_name="fname">{{ my_item.fname }}</div>
-                            </td>
-                            <td>
-                                <div class="row_data" edit_type="click" col_name="lname">{{ my_item.lname }}</div>
-                            </td>
-                            <td>
-                                <div class="row_data" edit_type="click" col_name="email">{{ my_item.email }}</div>
-                            </td>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Options</th>
+                </tr>
+                </thead>
 
-                            <td>
+                <tbody>
+                {% for my_item in my_collection %}
+                <tr row_id="{{ my_item.row_id }}">
+                    <td>
+                        <div class="row_data" edit_type="click" col_name="fname">{{ my_item.fname }}</div>
+                    </td>
+                    <td>
+                        <div class="row_data" edit_type="click" col_name="lname">{{ my_item.lname }}</div>
+                    </td>
+                    <td>
+                        <div class="row_data" edit_type="click" col_name="email">{{ my_item.email }}</div>
+                    </td>
+
+                    <td>
                                 <span class="btn_edit"> <a href="#" class="btn btn-link " row_id="{{ my_item.row_id }}">
                                         Edit</a> </span>
-                                <!-- only show this button if edit button is clicked -->
-                                <span class="btn_save"> <a href="#" class="btn btn-link" row_id="{{ my_item.row_id }}">
+                        <!-- only show this button if edit button is clicked -->
+                        <span class="btn_save"> <a href="#" class="btn btn-link" row_id="{{ my_item.row_id }}">
                                         Save</a> | </span>
-                                <span class="btn_cancel"> <a href="#" class="btn btn-link"
-                                        row_id="{{ my_item.row_id }}"> Cancel</a> | </span>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        <span class="btn_cancel"> <a href="#" class="btn btn-link"
+                                                     row_id="{{ my_item.row_id }}"> Cancel</a> | </span>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
-            </div>
         </div>
     </div>
+</div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading"><b>HTML Table Edits/Upates</b> </div>
-        <div class="panel-body">
-            <p>All the changes will be displayed below</p>
-            <div class="post_msg"> </div>
-        </div>
+<div class="panel panel-default">
+    <div class="panel-heading"><b>HTML Table Edits/Upates</b></div>
+    <div class="panel-body">
+        <p>All the changes will be displayed below</p>
+        <div class="post_msg"></div>
     </div>
+</div>
 
 </body>
 
