@@ -5,7 +5,6 @@ Banco de Horas
 {% endblock %}
 
 {% block content %}
-<br/><br/>
 <div class="board">
     <div class="board-header">
         <div class="left">
@@ -54,7 +53,7 @@ Banco de Horas
                     <input type="checkbox" id="approved_{{ item.id }}" onchange="checkClick({{ item.id }}, '{{ worker_name }}')"
                            {% if item.approved %} checked{% endif %}>
                 </div>
-                <div id="button_submit_{{ item.id }}">
+                <div>
                     <button class="button_submit" onclick="showHide('edit_card_{{ item.id }}', 'card_{{ item.id }}')">Editar</button>
                 </div>
                 <div>
