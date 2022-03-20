@@ -49,6 +49,16 @@ def update_bh():
     return str(soma_approved_)
 
 
+@app.route("/delete_bh", methods=['POST'])
+def delete_bh():
+    form_data = request.form
+    print(form_data)
+    print(form_data['worker_n'])
+    bh_db.delete_bh(form_data['chkid'])
+    entradas_, soma_, soma_approved_ = get_bh(form_data['worker_n'])
+    return str(soma_approved_)
+
+
 @app.route('/workers')
 def workers_list():
     workers_ = bh_db.get_dep_workers_list(False)
@@ -67,6 +77,11 @@ def bancohoras_list():
         worker_name_ = form_data['workers']
         entradas_, soma_, soma_approved_ = get_bh(worker_name_)
         return render_template('bh_list.html', entradas=entradas_, worker_name=worker_name_, workers=workers_, soma=soma_, soma_approved=soma_approved_, is_admin=is_admin)
+
+
+@app.route('/test')
+def test():
+    return render_template('test.html')
 
 
 def get_bh(worker_name):

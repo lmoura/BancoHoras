@@ -94,7 +94,7 @@ def update_chk(chk_id, checked):
         uma_entrada.approved = chk
         uma_entrada.save()
     else:  # Se não existir cria-se
-        uma_entrada = "ERROR!"
+        uma_entrada = "ERROR UPDATING CHECK!"
 
     return uma_entrada
 
@@ -107,9 +107,14 @@ def update_bh(chk_id, data_, horas_, desc_):
         uma_entrada.desc = desc_
         uma_entrada.save()
     else:  # Se não existir cria-se
-        uma_entrada = "ERROR!"
+        uma_entrada = "ERROR UPDATING!"
 
     return uma_entrada
+
+
+def delete_bh(chk_id):
+    nrows = BH.delete().where(BH.id == chk_id).execute()
+    return nrows
 
 
 def get_bh(worker_name):

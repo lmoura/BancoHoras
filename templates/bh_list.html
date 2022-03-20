@@ -54,10 +54,10 @@ Banco de Horas
                            {% if item.approved %} checked{% endif %}>
                 </div>
                 <div>
-                    <button class="button_submit" onclick="showHide('edit_card_{{ item.id }}', 'card_{{ item.id }}')">Editar</button>
+                    <button type="button" class="button_submit" onclick="showHide('edit_card_{{ item.id }}', 'card_{{ item.id }}')">Editar</button>
                 </div>
                 <div>
-                    <div class="button_delete">Apagar</div>
+                    <button type="button" class="button_delete" data-toggle="modal" data-target="#deleteModal" data-whatever="{{ item.id }}" data-who="{{ worker_name }}">Apagar</button>
                 </div>
             </div>
 
@@ -93,9 +93,38 @@ Banco de Horas
     </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Tem a certeza que deseja apagar esta entrada?<br>
+              (id: <div id="theID" style="display: inline"></div>)</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteBh($('#theID').html(), $('.modal-body').html())">Apagar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
+    $('#deleteModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var recipient = button.data('whatever') // Extract info from data-* attributes
+      var worker = button.data('who') // Extract info from data-* attributes
+      var modal = $(this)
+      modal.find('#theID').html(recipient)
+      modal.find('.modal-body').html(worker)
+    });
+
     function showHide(theIDshow, theIDhide) {
         console.log(theIDshow);
         var x = document.getElementById(theIDshow);
@@ -152,6 +181,21 @@ Banco de Horas
         $("#data__" + chkId).html(data_);
         $("#horas__" + chkId).html(horas_ + "h");
         $("#desc__" + chkId).html(desc_);
+    }
+
+    function deleteBh(chkId, worker_) {
+        $.ajax({
+            url: "delete_bh",
+            type: "post",
+            data: {
+                chkid: chkId,
+                worker_n: worker_},
+            success: function (result,status,xhr) {
+                $("#total").html(result + "h");
+            }
+        });
+        var x = document.getElementById('card_' + chkId);
+        x.style.display = "none";
     }
 </script>
 
